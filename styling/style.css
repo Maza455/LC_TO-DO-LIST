@@ -43,7 +43,13 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
-  
+
+
+@media (max-width: 600px) {
+    .todo-form {
+      flex-direction: column;
+      align-items: stretch;
+    }
 
   /* The main container of the Todo List */
 .todo-list {
@@ -147,4 +153,5 @@ body {
 
 .todo-list-item-edit-submit:hover {
   background-color: #218838;
+}
 }
