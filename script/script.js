@@ -39,19 +39,29 @@ function addItem(item) {
   
     saveItems();
 }
- 
 
-function edit(e){
+
+// function edit(e){
   
-    let i = document.querySelector('.edit')
+//     let i = document.querySelector('.edit')
 
-    let update = prompt("Update task:", );
-    let a = i.previousElementSibling;
-    e.parentElement.childNodes[1].innerHTML = update
+//     let update = prompt("Update task:", );
+//     let a = i.previousElementSibling;
+//     e.parentElement.childNodes[1].innerHTML = update
 
-// Store the updated data back into local storage
-    localStorage.setItem('items', JSON.stringify(update));
-    saveItems()
+// // Store the updated data back into local storage
+//     localStorage.setItem('items', JSON.stringify(update));
+//     saveItems()
+// }
+
+function edit(e) {
+    let update = prompt("Update task:");
+    if (update !== null) {
+      e.previousElementSibling.textContent = update;
+      
+      localStorage.setItem('items', JSON.stringify(update));
+      saveItems();
+    }
 }
 
   
