@@ -13,6 +13,7 @@ if (item !== '') {
   }
 });
 
+
 function loadItems() {
     const items = JSON.parse(localStorage.getItem('items')) || [];
     items.forEach((item) => addItem(item));
@@ -41,28 +42,20 @@ function addItem(item) {
 }
 
 
-// function edit(e){
-  
-//     let i = document.querySelector('.edit')
-
-//     let update = prompt("Update task:", );
-//     let a = i.previousElementSibling;
-//     e.parentElement.childNodes[1].innerHTML = update
-
-// // Store the updated data back into local storage
-//     localStorage.setItem('items', JSON.stringify(update));
-//     saveItems()
-// }
-
 function edit(e) {
     let update = prompt("Update task:");
-    if (update !== null) {
+    if (update !== null && update !== '') {
       e.previousElementSibling.textContent = update;
-      
+
       localStorage.setItem('items', JSON.stringify(update));
       saveItems();
+
+    } else if (update === '')
+        {
+      alert("Please enter a valid task⚠️");
     }
 }
+  
 
   
 function saveItems() {
