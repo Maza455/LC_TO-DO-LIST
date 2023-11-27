@@ -50,7 +50,7 @@ function edit(e) {
       localStorage.setItem('items', JSON.stringify(update));
       saveItems();
 
-    } else if (update === '')
+    } else(update === '')
         {
       alert("Please enter a valid task⚠️");
     }
