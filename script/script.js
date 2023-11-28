@@ -7,60 +7,59 @@ form.addEventListener('submit', (e) => {
 
   const item = input.value.trim();
 
-if (item !== '') {
+  if (item !== '' && !Array.from(list.children).some(li => li.textContent === item)) {
     addItem(item);
     input.value = '';
   }
 });
 
-
 function loadItems() {
-    const items = JSON.parse(localStorage.getItem('items')) || [];
-    items.forEach((item) => addItem(item));
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+  items.forEach((item) => addItem(item));
 }
-  window.addEventListener('load', loadItems);
-
+window.addEventListener('load', loadItems);
 
 function addItem(item) {
+  if (!Array.from(list.children).some(li => li.textContent === item)) {
     const li = document.createElement('li');
     li.innerHTML = `
-    <span class="item">${item}</span>
-       
+      <span class="item">${item}</span>
       <button class="edit" onclick="edit(this)">Edit</button>
       <button class="delete">X</button>
     `;
     list.appendChild(li);
 
-   
     const deleteButton = li.querySelector('.delete');
     deleteButton.addEventListener('click', () => {
       li.remove();
       saveItems();
     });
-  
-    saveItems();
-}
 
+    saveItems();
+  }
+}
 
 function edit(e) {
-    let update = prompt("Update task:");
-    if (update !== null && update !== '') {
-      e.previousElementSibling.textContent = update;
-
-      localStorage.setItem('items', JSON.stringify(update));
-      saveItems();
-
-    } else(update === '')
-        {
-      alert("Please enter a valid task⚠️");
-    }
+  let update = prompt("Update task:");
+  if (update !== null && update !== '') {
+    e.previousElementSibling.textContent = update;
+    saveItems();
+  } else if (update === '') {
+    alert("Please enter a valid task⚠️");
+  }
 }
-  
 
-  
 function saveItems() {
-    const items = Array.from(list.children).map((li) => li.querySelector('.item').textContent);
-    localStorage.setItem('items', JSON.stringify(items));
+  const items = Array.from(list.children).map((li) => li.querySelector('.item').textContent);
+  localStorage.setItem('items', JSON.stringify(items));
 }
 
-  
+function sortItems() {
+  const items = Array.from(list.children).map((li) => li.querySelector('.item').textContent);
+  const uniqueSortedItems = [...new Set(items)].sort((a, b) => a.localeCompare(b));
+  list.innerHTML = '';
+  uniqueSortedItems.forEach(item => addItem(item));
+}
+
+const sortButton = document.getElementById('sort-btn');
+sortButton.addEventListener('click', sortItems);
