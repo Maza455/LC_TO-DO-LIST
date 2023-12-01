@@ -1,11 +1,12 @@
 const form = document.getElementById('form');
 const input = document.getElementById('input');
 const list = document.getElementById('list');
+const sortBtn = document.getElementById('sort-btn');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const item = input.value.trim();
+  let item = input.value.trim();
 
   if (item !== '' && !Array.from(list.children).some(li => li.textContent === item)) {
     addItem(item);
@@ -13,15 +14,18 @@ form.addEventListener('submit', (e) => {
   }
 });
 
+
+//Adding Items in the local storage / in the Array.
 function loadItems() {
-  const items = JSON.parse(localStorage.getItem('items')) || [];
+  let items = JSON.parse(localStorage.getItem('items')) || [];
   items.forEach((item) => addItem(item));
 }
 window.addEventListener('load', loadItems);
 
+//Function that add Item and delete, in the to-do.list
 function addItem(item) {
   if (!Array.from(list.children).some(li => li.textContent === item)) {
-    const li = document.createElement('li');
+    let li = document.createElement('li');
     li.innerHTML = `
       <span class="item">${item}</span>
       <button class="edit" onclick="edit(this)">Edit</button>
@@ -29,8 +33,8 @@ function addItem(item) {
     `;
     list.appendChild(li);
 
-    const deleteButton = li.querySelector('.delete');
-    deleteButton.addEventListener('click', () => {
+    let dltBtn = li.querySelector('.delete');
+    dltBtn.addEventListener('click', () => {
       li.remove();
       saveItems();
     });
@@ -39,6 +43,8 @@ function addItem(item) {
   }
 }
 
+
+//Function that allow the user to edit what ever is in the to-do.list
 function edit(e) {
   let update = prompt("Update task:");
   if (update !== null && update !== '') {
@@ -49,17 +55,20 @@ function edit(e) {
   }
 }
 
+
+//Function that save to local 
 function saveItems() {
-  const items = Array.from(list.children).map((li) => li.querySelector('.item').textContent);
+  let items = Array.from(list.children).map((li) => li.querySelector('.item').textContent);
   localStorage.setItem('items', JSON.stringify(items));
 }
 
+
+//Function that allow the user to sort Ascending or Decending order
 function sortItems() {
-  const items = Array.from(list.children).map((li) => li.querySelector('.item').textContent);
-  const uniqueSortedItems = [...new Set(items)].sort((a, b) => a.localeCompare(b));
+  let items = Array.from(list.children).map((li) => li.querySelector('.item').textContent);
+  let uniqueSortedItems = [...new Set(items)].sort((a, b) => a.localeCompare(b));
   list.innerHTML = '';
   uniqueSortedItems.forEach(item => addItem(item));
 }
 
-const sortButton = document.getElementById('sort-btn');
-sortButton.addEventListener('click', sortItems);
+sortBtn.addEventListener('click', sortItems);
